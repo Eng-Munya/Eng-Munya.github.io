@@ -1,33 +1,372 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eng. Munya Al-Hammadi | Portfolio</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
 
+        /* Mockup Phone Frame */
+        .phone-container {
+            width: 360px;
+            height: 720px;
+            background: #000;
+            border-radius: 45px;
+            border: 12px solid #334155;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-  <title>My WebSite</title>
+        /* Phone Notch / Island */
+        .notch {
+            width: 120px;
+            height: 25px;
+            background: #334155;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 100;
+        }
 
+        /* Screen Content */
+        .screen {
+            flex: 1;
+            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+            padding: 40px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
 
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-  <link href="css/index.css" rel="stylesheet">
+        /* Profile Header inside Phone */
+        .profile-card {
+            text-align: center;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
 
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #6366f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 12px auto;
+            font-size: 32px;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        }
+
+        .profile-card h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .profile-card p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* Apps Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .app-item:hover {
+            transform: scale(1.08);
+        }
+
+        .app-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 6px;
+        }
+
+        .app-name {
+            font-size: 11px;
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        /* App Themes */
+        .icon-about { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .icon-skills { background: linear-gradient(135deg, #10b981, #047857); }
+        .icon-projects { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .icon-resume { background: linear-gradient(135deg, #f59e0b, #b45309); }
+        .icon-contact { background: linear-gradient(135deg, #ec4899, #be185d); }
+
+        /* Modal / App Screen Overlay */
+        .app-window {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 50;
+            padding: 40px 20px 20px 20px;
+            display: none;
+            flex-direction: column;
+            animation: slideUp 0.3s ease-out forwards;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .window-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .close-btn {
+            background: #334155;
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .window-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin: 3px;
+        }
+
+        /* Navigation Bar Bottom */
+        .home-bar {
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f172a;
+        }
+
+        .home-indicator {
+            width: 100px;
+            height: 4px;
+            background: #94a3b8;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
-  <div class="bg">
 
-    <div class="caption">
-  <span class="border">منية عبد الحميد ناجي </span><br>
-  <span class="border">Full Stack Web Developer</span>
-</div>
-<div class="btm">
-  <span>
-    Site is coming soon ...
-    </span>
-</div>
-  </div>
+    <div class="phone-container">
+        <!-- Phone Speaker Notch -->
+        <div class="notch"></div>
+
+        <!-- Phone Screen -->
+        <div class="screen">
+            <!-- Profile Info -->
+            <div class="profile-card">
+                <div class="avatar">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h1>م. منية الحمادي</h1>
+                <p>Senior Mobile Application Developer<br>(Flutter & Android)</p>
+            </div>
+
+            <!-- Icons Grid -->
+            <div class="apps-grid">
+                <div class="app-item" onclick="openApp('about')">
+                    <div class="app-icon icon-about"><i class="fa-solid fa-user"></i></div>
+                    <span class="app-name">نبذة عني</span>
+                </div>
+
+                <div class="app-item" onclick="openApp('skills')">
+                    <div class="app-icon icon-skills"><i class="fa-solid fa-layer-group"></i></div>
+                    <span class="app-name">المهارات</span>
+                </div>
+
+                <div class="app-item" onclick="openApp('projects')">
+                    <div class="app-icon icon-projects"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <span class="app-name">المشاريع</span>
+                </div>
+
+                <div class="app-item" onclick="openApp('resume')">
+                    <div class="app-icon icon-resume"><i class="fa-solid fa-file-pdf"></i></div>
+                    <span class="app-name">السيرة الذاتية</span>
+                </div>
+
+                <div class="app-item" onclick="openApp('contact')">
+                    <div class="app-icon icon-contact"><i class="fa-solid fa-envelope"></i></div>
+                    <span class="app-name">التواصل</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Window Apps Overlay -->
+            <div id="appWindow" class="app-window">
+                <div class="window-header">
+                    <span id="windowTitle" class="window-title">عنوان التطبيق</span>
+                    <button class="close-btn" onclick="closeApp()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="windowContent" class="window-content">
+                    <!-- Content will load dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Home Indicator -->
+        <div class="home-bar">
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store
+        const appData = {
+            about: {
+                title: "نبذة عني",
+                content: `
+                    <p>مهندسة برمجيات ومطورة تطبيقات جوال متخصصة بخبرة تزيد عن 8 سنوات في بناء منصات وتطبيقات قابلة للتوسع.</p><br>
+                    <p><strong>الدرجة العلمية:</strong> ماجستير تكنولوجيا المعلومات (امتياز) - جامعة عدن.</p><br>
+                    <p>متخصصة في الأنظمة متعددة الأطراف (Multi-party Platforms) وتطبيقات التجارة الإلكترونية والحلول المالية باستخدام Flutter وNative Android.</p>
+                `
+            },
+            skills: {
+                title: "المهارات التقنية",
+                content: `
+                    <p><strong>أطر العمل واللغات:</strong></p>
+                    <span class="badge">Flutter</span><span class="badge">Dart</span><span class="badge">Kotlin</span><span class="badge">Java</span><span class="badge">Jetpack Compose</span>
+                    <br><br>
+                    <p><strong>المعمارية والربط:</strong></p>
+                    <span class="badge">MVVM</span><span class="badge">Clean Architecture</span><span class="badge">GraphQL</span><span class="badge">RESTful APIs</span>
+                    <br><br>
+                    <p><strong>قواعد البيانات والأدوات:</strong></p>
+                    <span class="badge">SQLite</span><span class="badge">Room</span><span class="badge">Git</span><span class="badge">Google Play Console</span>
+                `
+            },
+            projects: {
+                title: "المشاريع والتطبيقات",
+                content: `
+        <div style="margin-bottom: 15px;">
+            <p><strong>📱 منصة بازاري (Bazzarry E-commerce):</strong></p>
+            <p style="font-size:11px; color:#94a3b8; margin-top:4px;">منصة تجارة إلكترونية متكاملة وشاملة. قمت فيها بإعادة بناء وتطوير الخصائص الرئيسية باستخدام Kotlin وJetpack Compose ومجهّزة بربط محرك GraphQL وMVVM Architecture.</p>
+            
+            <div style="margin-top: 10px; display:flex; gap:8px; flex-wrap:wrap;">
+                <a href="https://play.google.com/store/apps/details?id=com.bazzarry&pcampaignid=web_share" target="_blank" style="background:#0284c7; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:11px; font-weight:bold; display:inline-flex; align-items:center; gap:5px;">
+                    <i class="fa-brands fa-google-play"></i> Google Play
+                </a>
+                <a href="https://apps.apple.com/us/app/bazzarry-%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%D9%8A/id1631702675" target="_blank" style="background:#334155; color:white; padding:6px 10px; border-radius:6px; text-decoration:none; font-size:11px; font-weight:bold; display:inline-flex; align-items:center; gap:5px;">
+                    <i class="fa-brands fa-apple"></i> App Store
+                </a>
+            </div>
+        </div>
+
+        <hr style="border-color:#334155; margin:12px 0;">
+
+        <div style="margin-bottom: 15px;">
+            <p><strong>📱 تطبيقات BB SOFT Enterprise:</strong></p>
+            <p style="font-size:11px; color:#94a3b8; margin-top:4px;">تطبيقات متعددة ومخصصة للمؤسسات والشركات تم تطويرها وتأطيرها باستخدام Flutter & Dart ونشرها مباشرة للمتجرين.</p>
+        </div>
+    `
+},
+            resume: {
+                title: "السيرة الذاتية",
+                content: `
+        <p>يمكنك استعراض وتحميل النسخة المحدثة المعتمدة من السيرة الذاتية بصيغة PDF مباشرة:</p><br>
+        <a href="Munya_AlHammadi_CV.pdf" download="Munya_AlHammadi_CV.pdf" style="display:flex; align-items:center; justify-content:center; gap:8px; background:#f59e0b; color:#000; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);">
+            <i class="fa-solid fa-file-arrow-down" style="font-size:18px;"></i> تحميل CV (PDF)
+        </a>
+    `
+            },
+            contact: {
+                title: "قنوات التواصل",
+                content: `
+                    <p>يسعدني التواصل معك عبر قنوات التواصل التالية:</p><br>
+                    <p>📧 <strong>البريد:</strong> Munya1234a@gmail.com</p><br>
+                    <p>💼 <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/munya-abdulhameed-8b5423180/" target="_blank" style="color:#38bdf8;">Profile Link</a></p><br>
+                    <p>📍 <strong>العنوان:</strong> Aden, Yemen</p>
+                `
+            }
+        };
+
+        function openApp(appName) {
+            const data = appData[appName];
+            if (data) {
+                document.getElementById('windowTitle').innerText = data.title;
+                document.getElementById('windowContent').innerHTML = data.content;
+                document.getElementById('appWindow').style.display = 'flex';
+            }
+        }
+
+        function closeApp() {
+            document.getElementById('appWindow').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
